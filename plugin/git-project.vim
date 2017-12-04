@@ -7,9 +7,6 @@ if exists("g:loaded_vim_git_project")
 endif
 let g:loaded_vim_git_project = 1
 
-" public interface
-command -nargs=0 gp_set_path exec 'set path=.,' . s:gp_get_path()
-
 function! s:gp_get_path()
     let l:files = systemlist('git ls-tree HEAD --name-only -d')
     let l:path = ''
