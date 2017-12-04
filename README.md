@@ -1,2 +1,2 @@
-# vim-breakpoints
-Create breakpoints for gdb
+# vim-git-project
+Use git as project solution
