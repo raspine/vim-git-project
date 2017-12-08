@@ -11,11 +11,18 @@ function! GP_is_repo()
     return system('git rev-parse') == ''
 endfunction
 
-function! GP_get_root()
+function! GP_get_root_path()
     if !GP_is_repo()
         return ''
     endif
     return substitute(system('git rev-parse --show-toplevel'), '\n$', '', '')
+endfunction
+
+function! GP_get_root_name()
+    if !GP_is_repo()
+        return ''
+    endif
+    return fnamemodify(GP_get_root(), ':t')
 endfunction
 
 function! GP_get_include_paths()
@@ -64,6 +71,20 @@ function! GP_get_ctags_exclude_args()
         return ''
     endif
     return '--exclude=' . join(GP_get_exclude_paths(), " --exclude=")
+endfunction
+
+function! GP_get_files(matchStr)
+    if !GP_is_repo()
+        return []
+    endif
+    let l:allFiles = systemlist('git ls-files')
+    let l:matchedFiles = []
+    for l:file in l:allFiles
+      if l:file =~ a:matchStr
+          let l:matchedFiles = add(l:matchedFiles, l:file)
+      endif
+    endfor
+    return l:matchedFiles
 endfunction
 
 " vim:set ft=vim sw=4 sts=2 et:
