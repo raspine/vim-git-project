@@ -15,7 +15,7 @@ function! GP_get_root()
     if !GP_is_repo()
         return ''
     endif
-    return system('git rev-parse --show-toplevel')
+    return substitute(system('git rev-parse --show-toplevel'), '\n$', '', '')
 endfunction
 
 function! GP_get_include_paths()
@@ -36,12 +36,9 @@ function! GP_get_exclude_paths()
     if !GP_is_repo()
         return []
     endif
-    let l:currPath = getcwd()
-    let l:projRoot =  GP_get_root()
-    exec 'cd ' . l:projRoot
+
     let l:alldirs = []
-    let l:files = globpath('.', '*', 0, 1)
-    exec 'cd' . l:currPath
+    let l:files = globpath(GP_get_root() . '/', '*', 0, 1)
 
     for l:file in l:files
         if isdirectory(l:file)
@@ -52,7 +49,7 @@ function! GP_get_exclude_paths()
 
     let l:git_dirs = systemlist('git ls-tree HEAD --name-only -d')
 
-    " get the elements not in git repo
+    " return the directories not in git repo
     let l:nonGitdirs = []
     for l:dir in l:alldirs
         if index(l:git_dirs, l:dir) == -1
@@ -69,3 +66,4 @@ function! GP_get_ctags_exclude_args()
     return '--exclude=' . join(GP_get_exclude_paths(), " --exclude=")
 endfunction
 
+" vim:set ft=vim sw=4 sts=2 et:
