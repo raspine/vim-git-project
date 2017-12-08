@@ -22,7 +22,7 @@ function! GP_get_root_name()
     if !GP_is_repo()
         return ''
     endif
-    return fnamemodify(GP_get_root(), ':t')
+    return fnamemodify(GP_get_root_path(), ':t')
 endfunction
 
 function! GP_get_include_paths()
@@ -45,7 +45,7 @@ function! GP_get_exclude_paths()
     endif
 
     let l:alldirs = []
-    let l:files = globpath(GP_get_root() . '/', '*', 0, 1)
+    let l:files = globpath(GP_get_root_path() . '/', '*', 0, 1)
 
     for l:file in l:files
         if isdirectory(l:file)
