@@ -1,4 +1,4 @@
-" git-project.vim - Use git as project solution
+" vim-git-project.vim - Use git as project solution
 " Author:       Jörgen Scott (jorgen.scott@gmail.com)
 " Version:      0.1
 
