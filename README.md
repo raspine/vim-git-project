@@ -1,12 +1,12 @@
 # vim-git-project
-==================
+=========================
 ### Use Git to init vim ###
 
 vim-git-project provides a set of functions that helps with initialzation of
 vim using information provided by the git repo.
 
 ## Usage
-Given the following project tree:
+Given the following project tree (ignore that its a c++ example, vim-git-project is totally language-agnostic):
 ```
 my-project/
 ├── build/
