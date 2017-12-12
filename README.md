@@ -27,7 +27,7 @@ my-project/
 1
 ```
 
-**GP_get_root_path()** returns absolut path to the project:
+**GP_get_root_path()** returns the absolute path to the project:
 ```
 :echo GP_get_root_path()
 /home/me/my-project
