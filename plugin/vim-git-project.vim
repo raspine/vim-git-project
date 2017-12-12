@@ -25,21 +25,21 @@ function! GP_get_root_name()
     return fnamemodify(GP_get_root_path(), ':t')
 endfunction
 
-function! GP_get_include_paths()
+function! GP_get_include_dirs()
     if !GP_is_repo()
         return []
     endif
     return systemlist('git ls-tree HEAD --name-only -d')
 endfunction
 
-function! GP_get_vim_paths()
+function! GP_get_vim_dirs()
     if !GP_is_repo()
         return ''
     endif
-    return join(GP_get_include_paths(), '/**,') . '/**,'
+    return join(GP_get_include_dirs(), '/**,') . '/**,'
 endfunction
 
-function! GP_get_exclude_paths()
+function! GP_get_exclude_dirs()
     if !GP_is_repo()
         return []
     endif
@@ -70,7 +70,7 @@ function! GP_get_ctags_exclude_args()
     if !GP_is_repo()
         return ''
     endif
-    return '--exclude=' . join(GP_get_exclude_paths(), " --exclude=")
+    return '--exclude=' . join(GP_get_exclude_dirs(), " --exclude=")
 endfunction
 
 function! GP_get_files(matchStr)

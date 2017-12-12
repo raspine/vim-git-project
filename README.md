@@ -1,12 +1,13 @@
 # vim-git-project
 =========================
-### Use Git to init vim ###
+### Use Git to init Vim ###
 
-vim-git-project provides a set of functions that helps with initialzation of
+vim-git-project provides functions that helps with initialization of
 vim using information provided by the git repo.
 
 ## Usage
-Given the following project tree (ignore that its a c++ example, vim-git-project is totally language-agnostic):
+Given the following project tree (ignore that its a c++ example,
+vim-git-project is totally language-agnostic):
 ```
 my-project/
 ├── build/
@@ -20,47 +21,53 @@ my-project/
 
 ```
 
-GP_get_root_path() returns absolut path to the project:
+**GP_is_repo()** returns 1 if cwd is part of a git repo or else 0.
+```
+:echo GP_is_repo()
+1
+```
+
+**GP_get_root_path()** returns absolut path to the project:
 ```
 :echo GP_get_root_path()
 /home/me/my-project
 ```
 
-GP_get_root_name() returns the root name as a string:
+**GP_get_root_name()** returns the root name as a string:
 ```
 :echo GP_get_root_name()
 my-project
 ```
 
-GP_get_include_paths() returns a list of subdir relative root that is part of
-the git repo:
+**GP_get_include_dirs()** returns a list of subdirs, relative root, that is
+part of the git repo:
 ```
-:echo GP_get_include_paths()
+:echo GP_get_include_dirs()
 ['include', 'src'] 
 ```
 
-GP_get_vim_paths() returns a string that can be assigned to vim's path
-variable:
+**GP_get_vim_dirs()** returns a string version of GP_get_include_dirs() that
+can be added to vim's path variable:
 ```
-:echo GP_get_vim_paths()
+:echo GP_get_vim_dirs()
 src/**,include/**
 ```
 
-GP_get_exclude_paths() returns a list of subdir relative root that is not part
-of the git repo:
+**GP_get_exclude_dirs()** returns a list of subdirs, relative root, that is not
+part of the git repo:
 ```
-:echo GP_get_exclude_paths()
+:echo GP_get_exclude_dirs()
 ['build', 'imports'] 
 ```
 
-GP_get_ctags_exclude_args() returns a string that can be added to a !ctags
-command:
+**GP_get_ctags_exclude_args()** returns a string version of
+GP_get_exclude_dirs() that can be added to a !ctags command:
 ```
 :echo GP_get_ctags_exclude_args()
 --exclude=build --exclude=imports
 ```
 
-GP_get_files() returns a list of files that belongs to the project. If
+**GP_get_files()** returns a list of files that belongs to the git repo. If
 a non-empty argument is provided, only files containing the argument will be
 returned:
 ```
@@ -80,7 +87,7 @@ function! InitWorkspace()"{{{
     " Set vim's 'path' variable. Only directories part of git repo is added.
     " Vim's 'path' will be searched when using the |gf|, [f, ]f, ^Wf, |:find|,
     " |:sfind|, |:tabfind| and other commands.
-    let &path='.,' . GP_get_vim_paths()
+    let &path='.,' . GP_get_vim_dirs()
 
     " Create ctags index, exclude directories that are not part of git repo.
     exec 'silent! !ctags -R -f .tags ' . GP_get_ctags_exclude_args()
